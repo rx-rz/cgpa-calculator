@@ -106,7 +106,7 @@ function App() {
     }
     console.log({ totalScore, totalObtainableGrade });
     const CGPA = (totalScore / totalObtainableGrade) * 5;
-    successToast(`Your CGPA is ${CGPA}.`)
+    successToast(`Your CGPA is ${CGPA}.`);
   };
   return (
     <>
@@ -118,7 +118,10 @@ function App() {
           about courses with unreleased results as they will have a default
           score of 0.
         </p>
-        <p>You're offering {noOfCourses !== NaN ? noOfCourses : 0} course(s)</p>
+        <p>
+          You are offering{" "}
+          {Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}
+        </p>
         <form onSubmit={(e) => handleSubmit(e)} className="form">
           <input
             type="number"
