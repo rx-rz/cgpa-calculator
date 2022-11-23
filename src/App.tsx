@@ -106,7 +106,7 @@ function App() {
     }
     console.log({ totalScore, totalObtainableGrade });
     const CGPA = (totalScore / totalObtainableGrade) * 5;
-    successToast(`Your CGPA is ${CGPA}.`);
+    successToast(`Your CGPA is ${CGPA.toFixed(2)}.`);
   };
   return (
     <>
@@ -120,7 +120,7 @@ function App() {
         </p>
         <p>
           You are offering{" "}
-          ({Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}) courses
+          ({Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}) courses.
         </p>
         <form onSubmit={(e) => handleSubmit(e)} className="form">
           <input
