@@ -120,7 +120,7 @@ function App() {
         </p>
         <p>
           You are offering{" "}
-          {Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}
+          ({Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}) courses
         </p>
         <form onSubmit={(e) => handleSubmit(e)} className="form">
           <input
