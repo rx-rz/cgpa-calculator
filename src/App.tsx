@@ -190,6 +190,26 @@ function App() {
             Calculate GP
           </button>
         )}
+        <div className="links" >
+          <a href="https://github.com/temiloluwa-js" className="git">
+            <img
+              src="/github.svg"
+              alt="Github Link"
+              width={30}
+              height={30}
+
+            />
+          </a>
+          <a href="https://twitter.com/_abdurrazaq_">
+            <img
+              src="/twitter.svg"
+              alt="Twitter Link"
+              width={30}
+              height={30}
+            />
+          </a>
+
+        </div>
       </div>
     </>
   );

@@ -16,6 +16,15 @@ body {
   width: 20px;
 }
 
+.links{
+  margin-top: 50px;
+}
+
+.git{
+  margin-right: 10px;
+  filter: invert(100);
+}
+
 .course {
   display: flex;
   flex-wrap: wrap;
