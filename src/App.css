@@ -11,9 +11,8 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-
 }
-.index{
+.index {
   width: 20px;
 }
 
@@ -28,13 +27,12 @@ body {
   max-width: 1000px;
 }
 
-.score{
+.score {
   position: absolute;
 }
 
 @media screen and (max-width: 600px) {
-  .grade,
-  .unit {
+  .grade {
     padding: 5px;
     max-width: 20px;
   }
@@ -43,10 +41,15 @@ body {
   }
 }
 
-.grade,
-.unit {
-  padding: 15px;
+.inc {
+  margin-right: 20px;
 }
+
+.grade {
+  padding: 15px;
+  font-family: "Poppins", sans-serif;
+}
+
 .info {
   max-width: 800px;
   width: 90%;
@@ -67,4 +70,10 @@ body {
 
 .gp {
   margin-top: 15px;
+}
+
+.unit {
+  border: 1px solid white;
+  min-width: 25px;
+  padding: 12px;
 }

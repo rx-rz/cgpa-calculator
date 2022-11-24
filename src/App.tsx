@@ -1,74 +1,77 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import "./App.css";
 
+type Course = {
+  grade: string;
+  no: number;
+  unit: number;
+};
+
+/*CGPA Toast. Displays the final CGPA
+ after user input is complete. */
+const cgpaToast = (message: string) =>
+  toast(`${message}`, {
+    duration: 6000,
+    position: "top-center",
+    style: {
+      border: "1px solid white",
+      marginTop: "30px",
+      color: "white",
+      backgroundColor: "#242424",
+    },
+  });
+
 function App() {
-  type Course = {
-    grade: "A" | "B" | "C" | "D" | "E" | "F" | string;
-    no: number;
-    units: number;
-  };
-
-  const successToast = (message: string) =>
-    toast(`${message}`, {
-      duration: 5000,
-      position: "bottom-center",
-      style: {
-        border: "1px solid white",
-        color: "white",
-        backgroundColor: "#242424",
-      },
-    });
-
-  const [courses, setCourses] = useState<Course[]>(
-    JSON.parse(localStorage.getItem("courses")!) ?? []
-  );
+  /*initialized empty course and noOfCourses states */
+  const [courses, setCourses] = useState<Course[]>([]);
   const [noOfCourses, setNoOfCourses] = useState(0);
 
   const countRef = useRef<HTMLInputElement>(null);
 
   useMemo(() => {
+    /*when the user inputs their total number of courses, an array is created
+    that contains the same number of courses as the user input. The default value of
+    course no is (array index + 1), grade is F (this is used as default as the users can have
+      courses they have not received results for) and a course unit of 2 */
     const arr = [];
     for (let i = 0; i < noOfCourses; i++) {
-      const course: Course = { no: i + 1, grade: "F", units: 2 };
+      const course: Course = { no: i + 1, grade: "F", unit: 2 };
       arr.push(course);
     }
     setCourses(arr);
-    localStorage.setItem("courses", JSON.stringify(courses));
   }, [noOfCourses]);
 
-  const handleClick = () => {
+  const handleCourseInput = () => {
+    /*on course input, set the noOfCourses state to the
+    value of what the user puts in */
     setNoOfCourses(parseInt(countRef.current!.value));
   };
 
   const handleGradeInput = (grade: string, index: number) => {
+    /*on grade change, loop through each course in the courses list and upgrade
+    the course's grade accordingly */
     const newCourseItems = courses.map((course) =>
       course.no === index ? { ...course, grade: grade } : course
     );
     setCourses(newCourseItems);
-    localStorage.setItem("courses", JSON.stringify(courses));
-  };
-
-  const handleUnitInput = (unit: number, index: number) => {
-    const newCourseItems = courses.map((course) =>
-      course.no === index ? { ...course, unit: unit } : course
-    );
-    setCourses(newCourseItems);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
   };
 
   const toggleUnit = (index: number, value: "increment" | "decrement") => {
     if (value === "increment") {
+      /*on course unit increment, loop through each course in the courses list and increase
+    the course's unit by 1 */
       const updatedcourses = courses.map((course) =>
-        course.no === index ? { ...course, units: course.units + 1 } : course
+        course.no === index ? { ...course, unit: course.unit + 1 } : course
       );
       setCourses(updatedcourses);
     } else if (value === "decrement") {
+      /*on course unit decrement, loop through each course in the courses list and decrease
+    the course's unit by 1 */
       const updatedcourses = courses.map((course) =>
-        course.no === index ? { ...course, units: course.units - 1 } : course
+        course.no === index && course.unit! > 1
+          ? { ...course, unit: course.unit - 1 }
+          : course
       );
       setCourses(updatedcourses);
     }
@@ -77,36 +80,50 @@ function App() {
   const handleGPCalculation = () => {
     let totalScore = 0;
     let totalObtainableGrade = 0;
+
+    /*calculate the total score of the user based on the 
+    number of courses and the units each courses carry.*/
+
     for (let i = 0; i < noOfCourses; i++) {
       switch (courses[i].grade.toUpperCase()) {
         case "A":
-          totalScore += 5 * courses[i].units;
+          totalScore += 5 * courses[i].unit;
           break;
         case "B":
-          totalScore += 4 * courses[i].units;
+          totalScore += 4 * courses[i].unit;
           break;
         case "C":
-          totalScore += 3 * courses[i].units;
+          totalScore += 3 * courses[i].unit;
           break;
 
         case "D":
-          totalScore += 2 * courses[i].units;
+          totalScore += 2 * courses[i].unit;
           break;
         case "E":
-          totalScore += 1 * courses[i].units;
+          totalScore += 1 * courses[i].unit;
           break;
         default:
-          totalScore += 0;
+          totalScore += 0 * courses[i].unit;
           break;
       }
     }
 
+    /*calculate the total obtainable grade of the user based on the 
+    number of courses and the units each courses carry.*/
+
     for (let i = 0; i < noOfCourses; i++) {
-      totalObtainableGrade += 5 * courses[i].units;
+      totalObtainableGrade += 5 * courses[i].unit;
     }
-    console.log({ totalScore, totalObtainableGrade });
+
+    /*The CGPA is then generated from the total score divided
+    by the total obtainable grade multiplied by the highest GP. In our case it's 5*/
     const CGPA = (totalScore / totalObtainableGrade) * 5;
-    successToast(`Your CGPA is ${CGPA.toFixed(2)}.`);
+    /*0 divided by a number is Infinity. return 0 if the CGPA is not finite. */
+    if (Number.isFinite(CGPA)) {
+      cgpaToast(`Your CGPA is ${CGPA.toFixed(2)}.`);
+    } else {
+      cgpaToast(`Your CGPA is 0.00.`);
+    }
   };
   return (
     <>
@@ -119,10 +136,11 @@ function App() {
           score of 0.
         </p>
         <p>
-          You are offering{" "}
-          ({Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses}) courses.
+          You are offering (
+          {Number.isNaN(noOfCourses) || noOfCourses === 0 ? 0 : noOfCourses})
+          courses.
         </p>
-        <form onSubmit={(e) => handleSubmit(e)} className="form">
+        <div className="form">
           <input
             type="number"
             className="courses_no"
@@ -131,11 +149,11 @@ function App() {
             max={20}
             ref={countRef}
           />
-          <button type="submit" onClick={handleClick}>
+          <button type="submit" onClick={handleCourseInput}>
             Go
           </button>
-        </form>
-        <h2>Grade, Course Units</h2>
+        </div>
+        <h2>Grade ---- Course Unit</h2>
         {courses.map((course, index) => (
           <div key={index} className="course">
             <p key={index} className="index">
@@ -151,15 +169,9 @@ function App() {
               placeholder="Grade"
               onChange={(e) => handleGradeInput(e.target.value, index + 1)}
             />
-            <input
-              type="number"
-              value={course.units}
-              className="unit"
-              placeholder="Units"
-              onChange={(e) =>
-                handleUnitInput(parseInt(e.target.value), index + 1)
-              }
-            />
+            <div className="unit" placeholder="Unit">
+              {course.unit}
+            </div>
             <div className="counter">
               <button
                 onClick={() => toggleUnit(index + 1, "increment")}
