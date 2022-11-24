@@ -153,22 +153,28 @@ function App() {
             Go
           </button>
         </div>
-        <h2>Grade ---- Course Unit</h2>
+        <h2>Grade -- Course Unit</h2>
         {courses.map((course, index) => (
           <div key={index} className="course">
             <p key={index} className="index">
               {" "}
               {index + 1}
             </p>
-            <input
-              type="text"
-              pattern="[A-Fa-f]"
+            <select
+              name=""
+              defaultValue="F"
+              id=""
               className="grade"
-              maxLength={1}
-              value={course.grade}
-              placeholder="Grade"
               onChange={(e) => handleGradeInput(e.target.value, index + 1)}
-            />
+            >
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+            </select>
+
             <div className="unit" placeholder="Unit">
               {course.unit}
             </div>
@@ -190,25 +196,13 @@ function App() {
             Calculate GP
           </button>
         )}
-        <div className="links" >
+        <div className="links">
           <a href="https://github.com/temiloluwa-js" className="git">
-            <img
-              src="/github.svg"
-              alt="Github Link"
-              width={30}
-              height={30}
-
-            />
+            <img src="/github.svg" alt="Github Link" width={30} height={30} />
           </a>
           <a href="https://twitter.com/_abdurrazaq_">
-            <img
-              src="/twitter.svg"
-              alt="Twitter Link"
-              width={30}
-              height={30}
-            />
+            <img src="/twitter.svg" alt="Twitter Link" width={30} height={30} />
           </a>
-
         </div>
       </div>
     </>

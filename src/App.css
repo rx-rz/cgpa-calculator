@@ -1,12 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap");
 body {
   font-family: "Poppins", sans-serif;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .app {
   display: flex;
   margin-bottom: 250px;
-  width: 100vw;
+  margin-top: 50px;
+  border: 1px solid white;
+  padding-block: 1rem;
+  width: 95%;
+  max-width: 900px;
+  margin: auto;
   flex-direction: column;
   text-align: center;
   justify-content: center;
@@ -16,11 +24,11 @@ body {
   width: 20px;
 }
 
-.links{
+.links {
   margin-top: 50px;
 }
 
-.git{
+.git {
   margin-right: 10px;
   filter: invert(100);
 }
@@ -41,10 +49,7 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  .grade {
-    padding: 5px;
-    max-width: 20px;
-  }
+
   .inc {
     margin-right: 5px;
   }
