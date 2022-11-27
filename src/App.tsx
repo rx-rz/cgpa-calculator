@@ -34,12 +34,14 @@ function App() {
     that contains the same number of courses as the user input. The default value of
     course no is (array index + 1), grade is F (this is used as default as the users can have
       courses they have not received results for) and a course unit of 2 */
-    const arr = [];
+
+    let arr = [];
     for (let i = 0; i < noOfCourses; i++) {
       const course: Course = { no: i + 1, grade: "F", unit: 2 };
       arr.push(course);
     }
     setCourses(arr);
+    console.log({ arr, noOfCourses, courses });
   }, [noOfCourses]);
 
   const handleCourseInput = () => {
@@ -79,7 +81,7 @@ function App() {
 
   const handleGPCalculation = () => {
     let totalScore = 0;
-    let totalObtainableGrade = 0;
+    let totalGradePoints = 0;
 
     /*calculate the total score of the user based on the 
     number of courses and the units each courses carry.*/
@@ -112,12 +114,12 @@ function App() {
     number of courses and the units each courses carry.*/
 
     for (let i = 0; i < noOfCourses; i++) {
-      totalObtainableGrade += 5 * courses[i].unit;
+      totalGradePoints += courses[i].unit;
     }
 
     /*The CGPA is then generated from the total score divided
     by the total obtainable grade multiplied by the highest GP. In our case it's 5*/
-    const CGPA = (totalScore / totalObtainableGrade) * 5;
+    const CGPA = totalScore / totalGradePoints;
     /*0 divided by a number is Infinity. return 0 if the CGPA is not finite. */
     if (Number.isFinite(CGPA)) {
       cgpaToast(`Your CGPA is ${CGPA.toFixed(2)}.`);
@@ -162,8 +164,8 @@ function App() {
             </p>
             <select
               name=""
-              defaultValue="F"
               id=""
+              value={course.grade}
               className="grade"
               onChange={(e) => handleGradeInput(e.target.value, index + 1)}
             >
