@@ -202,7 +202,7 @@ function App() {
           <a href="https://github.com/temiloluwa-js" className="git">
             <img src="/github.svg" alt="Github Link" width={30} height={30} />
           </a>
-          <a href="https://twitter.com/_abdurrazaq_">
+          <a href="https://twitter.com/_rxrz">
             <img src="/twitter.svg" alt="Twitter Link" width={30} height={30} />
           </a>
         </div>
